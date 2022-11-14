@@ -21,12 +21,12 @@ newGrid.addEventListener("click", function() {
     while ( 
         gridSize <= 0 || 
         gridSize > 120 || 
-        gridSize == !Number ) {
-    gridSize = prompt(`Enter a valid new grid size. Between 0 and 120.`, `64`);
-    if (gridSize == null ) {break};
-    };
+        isNaN(gridSize) ) 
+        {
+        if (gridSize == null ) {break};
+        gridSize = prompt(`Enter a valid new grid size. Between 1 and 120.`, `64`);
+        };
     buildGrid(gridSize);
-
 });
 
 function buildGrid() {
