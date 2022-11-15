@@ -9,13 +9,9 @@ grid.style.display = `grid`;
 
 const square = document.getElementsByClassName(`square`);
 
-function changeBg(e) {
-    if ( e.type == `mouseover`) {
-        e.target.style.backgroundColor = `#333333`;
-    };
-};
-
 const newGrid = document.getElementById("newGrid");
+const isRainbow = document.getElementById(`isRainbow`);
+
 newGrid.addEventListener("click", function() {
     gridSize = prompt("Enter new grid size (120 max)", "64");
     while ( 
@@ -39,9 +35,42 @@ function buildGrid() {
 
         const square = document.createElement(`div`);
         square.classList.add(`square`);
-        square.addEventListener(`mouseover`, changeBg);
     //    square.addEventListener(`mousedown`, changeBg);
+        square.addEventListener(`mouseover`, changeBg);
         grid.appendChild(square);
+    };
+};
+
+function changeBg(e) {
+    if (isRainbow.value == `ON` ) {
+        toRainbow(e);
+    } else {
+        toBlack(e);
+    };
+};
+
+function toBlack(e) {
+    if ( e.type == `mouseover`) {
+        e.target.style.backgroundColor = `rgb(0,0,0)`;
+    };
+};
+
+function toRainbow(e) {
+    const randomBetween = (min, max) => min + Math.floor(Math.random() * (max - min + 1));
+    const r = randomBetween(0, 255);
+    const g = randomBetween(0, 255);
+    const b = randomBetween(0, 255);
+    const rgb = `rgb(${r}, ${g}, ${b})`;
+    if ( e.type == `mouseover`) {
+        e.target.style.backgroundColor = rgb;
+    };
+};
+
+isRainbow.onclick = () => {
+    if(isRainbow.value=="ON") {
+        isRainbow.value="OFF";
+    } else if (isRainbow.value=="OFF") {
+        isRainbow.value="ON";
     };
 };
 
