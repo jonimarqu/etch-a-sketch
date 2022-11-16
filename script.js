@@ -13,10 +13,10 @@ const newGrid = document.getElementById("newGrid");
 const isRainbow = document.getElementById(`isRainbow`);
 
 newGrid.addEventListener("click", function() {
-    gridSize = prompt("Enter new grid size (120 max)", "64");
+    gridSize = prompt("Enter new grid size (150 max)", "64");
     while ( 
         gridSize <= 0 || 
-        gridSize > 120 || 
+        gridSize > 150 || 
         isNaN(gridSize) ) 
         {
         if (gridSize == null ) {break};
@@ -26,8 +26,8 @@ newGrid.addEventListener("click", function() {
 });
 
 function buildGrid() {
-    grid.style.width = `800px`;
-    grid.style.height = `800px`;
+    grid.style.width = `850px`;
+    grid.style.height = `850px`;
     grid.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
     grid.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`;
     grid.innerHTML = ``;
@@ -35,24 +35,29 @@ function buildGrid() {
 
         const square = document.createElement(`div`);
         square.classList.add(`square`);
-    //    square.addEventListener(`mousedown`, changeBg);
         square.addEventListener(`mouseover`, changeBg);
+        square.addEventListener(`mousedown`, changeBg);
         grid.appendChild(square);
     };
 };
 
+let mouseDown = false;
+document.body.onmousedown = () => (mouseDown = true)
+document.body.onmouseup = () => (mouseDown = false)
+
 function changeBg(e) {
-    if (isRainbow.value == `ON` ) {
-        toRainbow(e);
+    e.preventDefault(); // To prevent from dragging
+
+    if ( e.type === "mouseover" && !mouseDown ) return;
+    if (isRainbow.value == `ON`) {
+    toRainbow(e);
     } else {
-        toBlack(e);
+    toBlack(e);
     };
 };
 
 function toBlack(e) {
-    if ( e.type == `mouseover`) {
         e.target.style.backgroundColor = `rgb(0,0,0)`;
-    };
 };
 
 function toRainbow(e) {
@@ -61,16 +66,16 @@ function toRainbow(e) {
     const g = randomBetween(0, 255);
     const b = randomBetween(0, 255);
     const rgb = `rgb(${r}, ${g}, ${b})`;
-    if ( e.type == `mouseover`) {
         e.target.style.backgroundColor = rgb;
-    };
 };
 
 isRainbow.onclick = () => {
-    if(isRainbow.value=="ON") {
-        isRainbow.value="OFF";
-    } else if (isRainbow.value=="OFF") {
-        isRainbow.value="ON";
+    isRainbow.innerText = isRainbow.innerText == 'Activate Rainbow mode' ? 'Deactivate Rainbow mode' : 'Activate Rainbow mode';
+
+    if(isRainbow.value == "ON") {
+        isRainbow.value = "OFF";
+    } else if (isRainbow.value == "OFF") {
+        isRainbow.value = "ON";
     };
 };
 
