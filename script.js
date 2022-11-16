@@ -1,4 +1,4 @@
-let gridSize = 20;
+let gridSize = 30;
 const container = document.querySelector(`.container`);
 
 const grid = document.createElement(`div`);
@@ -6,19 +6,13 @@ container.appendChild(grid);
 
 grid.style.display = `grid`;
 
-const square = document.getElementsByClassName(`square`);
-
 const newGrid = document.getElementById("newGrid");
 const isRainbow = document.getElementById(`isRainbow`);
 
 newGrid.addEventListener("click", function() {
     gridSize = prompt("Enter new grid size (150 max)", "64");
-    while ( 
-        gridSize <= 0 || 
-        gridSize > 150 || 
-        isNaN(gridSize) ) 
-        {
-        if (gridSize == null ) {break};
+    while ( gridSize <= 0 || gridSize > 150 || isNaN(gridSize) ) {
+        if (gridSize == null ) {return};
         gridSize = prompt(`Enter a valid new grid size. Between 1 and 120.`, `64`);
         };
     buildGrid(gridSize);
@@ -32,7 +26,6 @@ function buildGrid() {
     grid.innerHTML = ``;
     for (let i = 1 ; i <= gridSize ** 2 ; i++) {
         const square = document.createElement(`div`);
-        square.classList.add(`square`);
         square.addEventListener(`mouseover`, changeBg);
         square.addEventListener(`mousedown`, changeBg);
         grid.appendChild(square);
